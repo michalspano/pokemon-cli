@@ -1,0 +1,5 @@
+# exclude macOS binary
+*.DS_Store
+
+# exclude class files
+*.class
