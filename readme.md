@@ -1,4 +1,4 @@
-### Group Work Assignment 2 - G28 - branch `main`
+### Group Work Assignment 2 - G28 - branch `ionel`
 ---
 
 - __Instructions document__ $\Rightarrow$ [link](https://docs.google.com/document/d/1I_7RalKMvubf-W-KLjkenjf58VXaYRlhjghjPzQu1A8/edit).
