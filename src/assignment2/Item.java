@@ -13,10 +13,38 @@ public class Item
         this.weight = weight;
     }
 
+    // *** getters ***
+    
+    /**
+     * @return int
+     */
+    public int getHealingPower() {
+        return this.healingPower;
+    }
+
+    /**
+     * @return String
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * @return double
+     */
+    public double getWeight() {
+        return this.weight;
+    }
+    
     /*
     * Two items are equals if they have the same
     * Name, Healing Power and Weight.
     */
+    
+    /** 
+     * @param anotherObject
+     * @return boolean
+     */
 
     public boolean equals(Object anotherObject) {
         if (anotherObject == null) {
@@ -26,32 +54,25 @@ public class Item
         if (anotherObject instanceof Item) {
             Item anotherItem = (Item) anotherObject;
 
-            return this.name.equals(anotherItem.name) &&
-                   this.healingPower == anotherItem.healingPower &&
-                   this.weight == anotherItem.weight;
+            boolean checkName = this.name.equals(anotherItem.name);
+            boolean checkHealingPower = this.healingPower == anotherItem.healingPower;
+            boolean checkWeight = this.weight == anotherItem.weight;
+
+            return checkName && checkHealingPower && checkWeight; 
         }
 
         return false;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String toString() {
+
         // TODO: revisit the truncation method ?
+
         double truncatedWeight = Math.floor(this.weight * 100) / 100;
         return String.format("%s heals %d HP. (%.2f)", this.name, this.healingPower, truncatedWeight);
-    }
-    
-    public int getHealingPower()
-    {
-        return this.healingPower;
-    }
-
-    public String getName()
-    {
-        return this.name;
-    }
-
-    public double getWeight()
-    {
-        return this.weight;
     }
 }
