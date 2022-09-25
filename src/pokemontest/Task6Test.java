@@ -1,7 +1,7 @@
 package pokemontest;
 
 import assignment2.Pokemon;
-import assignment2.assignment2.Item;
+import assignment2.Item;
 
 import org.junit.jupiter.api.Test;
 
