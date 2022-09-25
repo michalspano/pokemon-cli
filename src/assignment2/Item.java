@@ -1,7 +1,5 @@
 package assignment2;
 
-import java.text.DecimalFormat;
-
 public class Item
 {
     private final String name;
@@ -56,5 +54,4 @@ public class Item
     {
         return this.weight;
     }
-
 }

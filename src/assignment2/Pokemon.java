@@ -158,23 +158,34 @@ public class Pokemon {
     
     public String useItem(Item item)  // We are assuming that the healingPower of an item always is greater than 0
     {
-        // Pokemon has full HP
-        if (this.currentHP + item.getHealingPower() > this.MAX_HP)
+        // 1st case - the HP is maximum
+        if (this.currentHP == this.MAX_HP) 
+        {
+            return String.format("%s could not use %s. HP is already full.", 
+                                this.name, item.getName());
+        }
+
+        // 2nd case - the increase will exceed the maximum HP
+        else if (this.currentHP + item.getHealingPower() > this.MAX_HP) 
         {
             this.currentHP = this.MAX_HP;
-            return String.format("%s could not use %s. HP is already full.", this.name, item.getName());
-        }
-        else
-        {
-            this.currentHP += item.getHealingPower();
-
-            if(hasFainted)
-            {
-                hasFainted = false;
-            }   
 
             return String.format("%s used %s. It healed %d HP.", 
-                        this.name, item.getName(), item.getHealingPower());
+                                this.name, item.getName(), this.MAX_HP - item.getHealingPower());
+        }
+
+        // 3rd case - the general increase of health
+        else 
+        {
+            // check if the Pokemon has fainted
+            if (hasFainted) 
+            {
+                hasFainted = false;
+            }
+
+            this.currentHP += item.getHealingPower();
+            return String.format("%s used %s. It healed %d HP.", 
+                                this.name, item.getName(), item.getHealingPower());
         }
     }
 
