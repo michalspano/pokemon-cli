@@ -23,40 +23,68 @@ public class PokemonSkill
         this.energyCost = EC;
     }
 
-    // getters
-    public String getName() {
+    // *** getters ***
+    
+    /** 
+     * @return String
+     */
+    public String getName() 
+    {
         return this.name;
     }
 
-    public int getAttackPower() {
+    /** 
+     * @return int
+     */
+    public int getAttackPower() 
+    {
         return this.attackPower;
     }
 
-    public int getEnergyCost() {
+    /** 
+     * @return int
+     */
+    public int getEnergyCost() 
+    {
         return this.energyCost;
     }
 
     /*
-     * Compare if two Pokemon Skills are the same:
-     * Two skills are equal if they have the same names, APs and energy costs.
-     */
+    * Compare if two Pokemon Skills are the same:
+    * Two skills are equal if they have the same names, APs and energy costs.
+    */
     
-    public boolean equals(Object anotherObject) {
-        
-        if (anotherObject == null) {
+    /** 
+     * @param anotherObject
+     * @return boolean
+     */
+    public boolean equals(Object anotherObject) 
+    {    
+        if (anotherObject == null) 
+        {
             return false;
         }
-        if (anotherObject instanceof PokemonSkill) {
+        if (anotherObject instanceof PokemonSkill) 
+        {
+            // cast the Object to the desired type
             PokemonSkill anotherPokemon = (PokemonSkill) anotherObject;
 
-            return this.name.equals(anotherPokemon.name) && 
-                   this.attackPower == anotherPokemon.attackPower && 
-                   this.energyCost == anotherPokemon.energyCost;
+            boolean checkName = this.name.equals(anotherPokemon.name);
+            boolean checkAttackPower = this.attackPower == anotherPokemon.attackPower;
+            boolean checkEnergyCost = this.energyCost == anotherPokemon.energyCost;
+
+            return checkName && checkAttackPower && checkEnergyCost;
         }
+
         return false;
     }
-
-    public String toString() {
-        return String.format("%s - AP: %d EC: %d", name, attackPower, energyCost);
+    
+    /** Output specified in the instructions
+     * @return String
+     */
+    public String toString() 
+    {
+        return String.format("%s - AP: %d EC: %d", 
+                            name, attackPower, energyCost);
     }
 }
