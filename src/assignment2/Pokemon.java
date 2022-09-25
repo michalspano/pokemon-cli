@@ -1,5 +1,10 @@
 package assignment2;
 
+/*  TODO: this Class is currently __bloated__ and should be revisited soon! 
+ * - reduce inconsistencies and repetition;
+ * - enhance overall performance.
+*/
+
 public class Pokemon {
 
     // *** attributes ***
@@ -318,7 +323,8 @@ public class Pokemon {
         if (anotherObject instanceof Pokemon) {
             Pokemon anotherPokemon = (Pokemon) anotherObject;
 
-            // TODO: fix this ugly formatting
+            // TODO: fix this ugly formatting; possibly come up with a more feasible approach
+
             return this.name.equals(anotherPokemon.name) && 
                    this.type.equals(anotherPokemon.type) &&
                    this.currentHP == anotherPokemon.currentHP && 
