@@ -3,42 +3,54 @@ package assignment2;
 import java.util.ArrayList;
 
 public class ItemBag
-{
+{   
     private final double MAX_WEIGHT;
     private double currentWeight;
+
+    /* Analysis:
+     * In order to implement the functionality of the ItemBag, we use the data structure
+     * 'ArrayList', i.e., a type of dynamic list. s*/
+
     private ArrayList<Item> items;
+
+    // constructor
 
     public ItemBag(double maxWeight)
     {
         this.MAX_WEIGHT = maxWeight;
         this.items = new ArrayList<Item>();
     }
-
-    /* Getters
-     * The bag should provide: the current number of items stored, the current
-     * weight of the bag, and its maximum weight. Other operations are defined
-     * below.
+    
+    /** 
+     * @return int
      */
-
     public int getNumOfItems() 
     {
         return this.items.size();
     }
-
+    
+    /** 
+     * @return double
+     */
     public double getCurrentWeight()
     {
         return this.currentWeight;
     }
-
+    
+    /** 
+     * @return double
+     */
     public double getMaxWeight()
     {
         return this.MAX_WEIGHT;
     }
-
+    
+    /** 
+     * @param item
+     * @return int
+     */
     public int addItem(Item item)
     {
-        // add the item
-
         /*
          * The collection of items can accept repeated items and the items are stored in
          * a specific sequence. When adding an item to the bag, the item must be placed
@@ -46,44 +58,88 @@ public class ItemBag
          * than those before (i.e., sorted by weight). 
          */
 
-         // TODO: Refactor this part
-
-         // If the item we want to insert + the current weight is greater than the max weight permited
+         // If the item we want to insert + the current weight is greater than the max weight permitted
          if(this.currentWeight + item.getWeight() > this.MAX_WEIGHT)
          {
             // It's not possible to add the item
             return -1;
          }
-         else if(this.items.size() == 0)
-         {
-            // Else if the bag is empty
-            this.items.add(0,item);
-            this.currentWeight += item.getWeight();
-            return 0;
-         }
 
-         // TODO: replace the algorithm with a more effective approach - binary search
+         // we assume that the items are sorted by the weight; from the heaviest to the lightest
+         // hence, we may implement the binary search to obtain the valid index to insert to
 
-         for (int i = 0; i < this.items.size(); i++) {
-            if (item.getWeight() >= this.items.get(i).getWeight()) {
-                this.items.add(i, item);
-                this.currentWeight += item.getWeight();
-                return i;
+         // TODO: refactor the use of the algorithm
+         // e.g., separate method, etc.
+
+         int low = 0;
+         int high = this.items.size() - 1;
+
+         int addIndexAt = 0;
+
+         while (low <= high) {
+            int mid = (low + high) / 2;
+
+            // if the weight is the same as the middle weight
+            if (items.get(mid).getWeight() == item.getWeight()) {
+                addIndexAt = mid;
+                break;
+
+            } else if (item.getWeight() > items.get(mid).getWeight()) {
+                high = mid -1;
+                addIndexAt = mid;
+
+            } else {
+                low = mid + 1;
+                addIndexAt = mid + 1;
             }
-         }
+        }
 
-         // incorrect index
-         return -1;
+        this.items.add(addIndexAt, item);
+        this.currentWeight += item.getWeight();
+
+        return addIndexAt;
     }
 
+    
+    /** 
+     * @param index
+     * @return String
+     */
     public String peekItemAt(int index)
     {
-        // Hyper Potion heals 50 HP. (10.00)
-        Item currentItem = this.items.get(index);
+        if (index >= this.items.size() || index < 0) 
+        {
+            return new String();
+        }
 
-        return String.format("%s heals %f HP. (%d)", currentItem.getName(), currentItem.getHealingPower(), currentItem.getWeight());
+        Item currentItem = this.items.get(index);
+        double truncatedWeight = Math.floor(currentItem.getWeight() * 100) / 100;
+
+        return String.format("%s heals %d HP. (%.2f)",
+                        currentItem.getName(), currentItem.getHealingPower(), truncatedWeight);
     }
 
+    
+    /** 
+     * @param index
+     * @return Item
+     */
+    public Item removeItemAt(int index) {
+        // TODO: implement proper functionality
+        return new Item("foo", 1, 1.0);
+    }
+
+    /** 
+     * @return Item
+     */
+    public Item popItem() {
+        // TODO: implement proper functionality
+        return new Item("bar", 1, 1.0);
+    }
+    
+    /** 
+     * @return String
+     */
     public String toString() {
         return new String();
     }
