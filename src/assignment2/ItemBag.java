@@ -46,11 +46,20 @@ public class ItemBag
          * than those before (i.e., sorted by weight). 
          */
 
+         // TODO: Refactor this part
+
          // If the item we want to insert + the current weight is greater than the max weight permited
          if(this.currentWeight + item.getWeight() > this.MAX_WEIGHT)
          {
             // It's not possible to add the item
             return -1;
+         }
+         else if(this.items.size() == 0)
+         {
+            // Else if the bag is empty
+            this.items.add(0,item);
+            this.currentWeight += item.getWeight();
+            return 0;
          }
 
          // TODO: replace the algorithm with a more effective approach - binary search
@@ -65,6 +74,14 @@ public class ItemBag
 
          // incorrect index
          return -1;
+    }
+
+    public String peekItemAt(int index)
+    {
+        // Hyper Potion heals 50 HP. (10.00)
+        Item currentItem = this.items.get(index);
+
+        return String.format("%s heals %f HP. (%d)", currentItem.getName(), currentItem.getHealingPower(), currentItem.getWeight());
     }
 
     public String toString() {
