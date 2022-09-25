@@ -144,6 +144,40 @@ public class Pokemon {
             this.energyPoints = this.MAX_ENERGY;
         }
     }
+    
+    /*
+     * When using an item, a Pokemon should return the following string indicating
+     * the outcome of the healing:
+     * 
+     * 1: If the pokemon has full HP before using the item:
+     * “<poke name> could not use <item name>. HP is already full.”
+     * 
+     * 2: If the pokemon recovers health when using the item:
+     * “<poke name> used <item name>. It healed <amount healed> HP.”
+     */
+    
+    public String useItem(Item item)  // We are assuming that the healingPower of an item always is greater than 0
+    {
+        // Pokemon has full HP
+        if (this.currentHP + item.getHealingPower() > this.MAX_HP)
+        {
+            this.currentHP = this.MAX_HP;
+            return String.format("%s could not use %s. HP is already full.", this.name, item.getName());
+        }
+        else
+        {
+            this.currentHP += item.getHealingPower();
+
+            if(hasFainted)
+            {
+                hasFainted = false;
+            }   
+
+            return String.format("%s used %s. It healed %d HP.", 
+                        this.name, item.getName(), item.getHealingPower());
+        }
+    }
+
 
     /*
      * Attack function
