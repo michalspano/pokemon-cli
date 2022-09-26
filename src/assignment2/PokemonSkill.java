@@ -2,16 +2,6 @@ package assignment2;
 
 public class PokemonSkill
 {
-    /*
-     * A pokemon relies on a skill during battles. A skill has a name, attack power
-     * (AP), and energy cost (EC). All these values are specified when creating the
-     * skill. Both AP and energy cost are integer values. Once created, the state of
-     * a skill cannot be changed.
-     * 
-     * Two skills are equal if they have the same names, APs and energy costs. When
-     * printed, a skill should return: “<skill name> - AP: <ap> EC: <ec>”.
-     */    
-    
     private final String name;
     private final int attackPower;
     private final int energyCost;

@@ -1,6 +1,12 @@
 package assignment2;
 
-public class Pokemon {
+public class Pokemon 
+{
+    // class constants
+    final byte MAX_ENERGY = 100;
+    final byte ENERGY_RECOVER = 25;
+    final byte HEALTH_RECOVER = 20;
+    final String END_OF_LINE = System.lineSeparator();
 
     // *** attributes ***
 
@@ -16,14 +22,6 @@ public class Pokemon {
     // custom object attributes
     private boolean hasFainted;
 
-    // class constants
-    final byte MAX_ENERGY = 100;
-    final byte ENERGY_RECOVER = 25;
-    final byte HEALTH_RECOVER = 20;
-
-    final String END_OF_LINE = System.lineSeparator();
-
-     
     /* Each pokemon has:
     - 1. name
     - 2. max health
@@ -42,52 +40,80 @@ public class Pokemon {
         this.name = name;
 
         this.MAX_HP = maximumHP;
-        this.currentHP = this.MAX_HP;   // after creation, the current is the maximum
+        this.currentHP = this.MAX_HP;       // after creation, the current is the maximum
 
-        this.energyPoints = MAX_ENERGY;                  // we may assume that the energy is always max. 100
+        this.energyPoints = MAX_ENERGY;     // we may assume that the energy is always max. 100
         
-        this.skill = null;              // the Pokemon doesn't know any skill yet
+        this.skill = null;                  // the Pokemon doesn't know any skill yet
         this.type = type;
 
-        
-        // Custom attributes
         this.hasFainted = false;
     }
-
-    // *** methods ***
-
+ 
+    /** 
+     * @return int
+     */
     // getters
-    public int getEnergy() {
+    public int getEnergy() 
+    {
         return this.energyPoints;
     }
-
-    public int getCurrentHP() {
+  
+    /** 
+     * @return int
+     */
+    public int getCurrentHP() 
+    {
         return this.currentHP;
     }
-
-    public int getMAX_HP() {
+  
+    /** 
+     * @return int
+     */
+    public int getMAX_HP() 
+    {
         return this.MAX_HP;
     }
-
-    public String getName() {
+ 
+    /** 
+     * @return String
+     */
+    public String getName() 
+    {
         return this.name;
     }
-
-    public String getType() {
+ 
+    /** 
+     * @return String
+     */
+    public String getType() 
+    {
         return this.type;
     }
 
+    /** 
+     * @param newName
+     */
     // Setters
+
     public void setName(String newName)
     {
         this.name = newName;
     }
 
+    /** 
+     * @param name
+     * @param attackPower
+     * @param energyCost
+     */
     public void learnSkill(String name, int attackPower, int energyCost) 
     {
         this.skill = new PokemonSkill(name, attackPower, energyCost);
     }
 
+    /** 
+     * @return boolean
+     */
     public boolean knowsSkill()
     {
         return(this.skill != null);
@@ -98,6 +124,9 @@ public class Pokemon {
         this.skill = null;
     }
 
+    /** 
+     * @param damage
+     */
     public void receiveDamage(int damage)
     {
         this.currentHP -= damage;
@@ -127,7 +156,10 @@ public class Pokemon {
     void faint() {
         this.hasFainted = true;
     }
-
+    
+    /** 
+     * @param energyCost
+     */
     void useEnergy(int energyCost)
     {
         if (this.energyPoints >= energyCost)
@@ -152,18 +184,11 @@ public class Pokemon {
         }
     }
     
-    /*
-     * When using an item, a Pokemon should return the following string indicating
-     * the outcome of the healing:
-     * 
-     * 1: If the pokemon has full HP before using the item:
-     * “<poke name> could not use <item name>. HP is already full.”
-     * 
-     * 2: If the pokemon recovers health when using the item:
-     * “<poke name> used <item name>. It healed <amount healed> HP.”
+    /** 
+     * @param item
+     * @return String
      */
-    
-    public String useItem(Item item)  // We are assuming that the healingPower of an item always is greater than 0
+    public String useItem(Item item)
     {
         // 1st case - the HP is maximum
         if (this.currentHP == this.MAX_HP) 
@@ -195,44 +220,35 @@ public class Pokemon {
                                 this.name, item.getName(), item.getHealingPower());
         }
     }
-
-
-    /*
-     * Attack function
-     * 1: If the attacking pokemon is fainted, the message should be:
-     * 
-     * "Attack failed. <attacker> fainted."
-     * 2: If the target pokemon is fainted, the message should be:
-     * 
-     * "Attack failed. <target> fainted."
-     * 3: If the attacking pokemon does not know a skill, the message should be:
-     * 
-     * "Attack failed. <attacker> does not know a skill."
-     * 4: If the attacker knows a skill and has less energy points than the cost of
-     * the skill (ec):
-     * "Attack failed. <attacker> lacks energy: <ep>/<ec>"
-     * 
-     * 5: If the attacker has enough EP to use the Skill, then the attack is
-     * successful.
-     * 
-     * The attacking pokemon should return a message that describes the outcome of
-     * the attack.
-     * 
+    
+    /** 
+     * @param targetPokemon
+     * @return String
      */
 
-    private String remainingHP(Pokemon targetPokemon) {
+    private String remainingHP(Pokemon targetPokemon) 
+    {
         return String.format("%s%s has %d HP left.",
                 END_OF_LINE,
                 targetPokemon.getName(),
-                targetPokemon.getCurrentHP()
-        );
+                targetPokemon.getCurrentHP());
     }
-
-    private String assignFaint(String name) {
+    
+    /** 
+     * @param name
+     * @return String
+     */
+    private String assignFaint(String name) 
+    {
         return String.format(" %s faints.", name);
     }
  
-    public String attack(Pokemon targetPokemon) {
+    /** 
+     * @param targetPokemon
+     * @return String
+     */
+    public String attack(Pokemon targetPokemon) 
+    {
 
         // 1. test case
         if (this.skill == null)
@@ -260,49 +276,47 @@ public class Pokemon {
         }
 
         // 5. detect a successful attack
-
         else
         {
-            // TODO: refactor the code functionality below
-            // remove redundant code and, make it more readable
-            // remove and/or adjust repetitive code
-
             String attackerType = this.type.toUpperCase();
             String targetType = targetPokemon.getType().toUpperCase();
 
-            String attackMessage = String.format("%s uses %s on %s.", this.name, this.skill.getName(), targetPokemon.getName());        
-            
-            if (targetType.equals("NORMAL") || attackerType.equals("NORMAL") || attackerType.equals(targetType)) {
+            // initial attack message (String)
+            String attackMessage = String.format("%s uses %s on %s.", 
+                                    this.name, this.skill.getName(), targetPokemon.getName());
 
-                targetPokemon.receiveDamage(this.skill.getAttackPower());
-                this.useEnergy(this.skill.getEnergyCost());
+            int skillAttackPower = this.skill.getAttackPower();
+            int skillEnergyCost  = this.skill.getEnergyCost();   
 
-                attackMessage += remainingHP(targetPokemon);
+            boolean isNormalAttack = targetType.equals("NORMAL")   || 
+                                     attackerType.equals("NORMAL") || 
+                                     attackerType.equals(targetType);
 
-                if (targetPokemon.getCurrentHP() <= 0) {
-                    attackMessage += assignFaint(targetPokemon.getName());
-                }
-
-                return attackMessage;
-            }
-            
-            EffectiveAttack effectiveAttack = EffectiveAttack.valueOf(attackerType);
-
-            if (effectiveAttack.toString().equals(targetType)) 
+            if (isNormalAttack) 
             {
-                attackMessage += " It is super effective!";
-                targetPokemon.receiveDamage(this.skill.getAttackPower() * 2);
-
-            } else 
-            {
-                attackMessage += " It is not very effective...";
-                targetPokemon.receiveDamage(this.skill.getAttackPower() / 2);
+                targetPokemon.receiveDamage(skillAttackPower);
             }
 
-            this.useEnergy(this.skill.getEnergyCost());
+            else 
+            {
+                EffectiveAttack effectiveAttack = EffectiveAttack.valueOf(attackerType);
+    
+                if (effectiveAttack.toString().equals(targetType)) 
+                {
+                    attackMessage += (" It is super effective!");
+                    targetPokemon.receiveDamage(skillAttackPower * 2);
+    
+                } else 
+                {
+                    attackMessage += " It is not very effective...";
+                    targetPokemon.receiveDamage(skillAttackPower / 2);
+                }                
+            }
 
+            this.useEnergy(skillEnergyCost);
             attackMessage += remainingHP(targetPokemon);
-
+            
+            // check if the target Pokemon has fainted
             if (targetPokemon.getCurrentHP() <= 0) 
             {
                 attackMessage += assignFaint(targetPokemon.getName());
@@ -311,37 +325,47 @@ public class Pokemon {
             return attackMessage;
         }
     }
-
+  
     /*
     * Compare if two Pokemons are the same:
     * - Two pokemons are equal if they have the same name, type, skill, HP, MAX HP, EP
     */
     
-    public boolean equals(Object anotherObject) {
+    /** 
+     * @param anotherObject
+     * @return boolean
+     */
+    public boolean equals(Object anotherObject)
+    {
         
-        if (anotherObject == null) {
+        if (anotherObject == null) 
+        {
             return false;
         }
-        if (anotherObject instanceof Pokemon) {
+
+        if (anotherObject instanceof Pokemon) 
+        {
             Pokemon anotherPokemon = (Pokemon) anotherObject;
 
-            // TODO: fix this ugly formatting; possibly come up with a more feasible approach
+            boolean equalName   = this.name.equals(anotherPokemon.name);
+            boolean equalType   = this.type.equals(anotherPokemon.type);
+            boolean equalHP     = this.currentHP == anotherPokemon.currentHP;
+            boolean equalMAX_HP = this.MAX_HP == anotherPokemon.MAX_HP;
 
-            return this.name.equals(anotherPokemon.name) && 
-                   this.type.equals(anotherPokemon.type) &&
-                   this.currentHP == anotherPokemon.currentHP && 
-                   this.MAX_HP == anotherPokemon.MAX_HP && 
+            boolean noSkillOrEqualSkill = (this.skill == null && anotherPokemon.skill == null) || 
+                                          (this.skill != null && this.skill.equals(anotherPokemon.skill));
+                                          
+            boolean equalEnergy = this.energyPoints == anotherPokemon.energyPoints;
 
-                     (this.skill == null && anotherPokemon.skill == null) ||
-                     (this.skill != null && this.skill.equals(anotherPokemon.skill)) && // null check for other Pokemon's
-                                                                                        // skill ensured in the equals
-                                                                                        // method of PokemonSkill
-                   this.energyPoints == anotherPokemon.energyPoints;
+            return equalName && equalType && equalHP && equalMAX_HP && noSkillOrEqualSkill && equalEnergy;
         }
         
         return false;
     }
     
+    /** 
+     * @return String
+     */
     /* Print the Pokemon object according to the specifications */
 
     public String toString()
@@ -354,7 +378,7 @@ public class Pokemon {
         else
         {
             // If it has learned a skill
-            return String.format("%s (%s). Knows %s - AP: %d EC: %d", 
+            return String.format("%s (%s). Knows %s - AP: %d EC: %d",
                 name, type, skill.getName(), this.skill.getAttackPower(), this.skill.getEnergyCost());
         }
     }

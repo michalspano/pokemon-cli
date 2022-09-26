@@ -119,7 +119,6 @@ public class ItemBag
 
         return addIndexAt;
     }
-
     
     /** 
      * @param index

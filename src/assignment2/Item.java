@@ -63,16 +63,13 @@ public class Item
 
         return false;
     }
-
     
     /** 
      * @return String
      */
     public String toString() {
-
-        // TODO: revisit the truncation method ?
-
         double truncatedWeight = PokemonUtils.truncateDouble(this.weight, 2);
-        return String.format("%s heals %d HP. (%.2f)", this.name, this.healingPower, truncatedWeight);
+        return String.format("%s heals %d HP. (%.2f)", 
+                                this.name, this.healingPower, truncatedWeight);
     }
 }
