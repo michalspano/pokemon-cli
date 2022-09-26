@@ -6,3 +6,6 @@
 
 # .vscode specific
 .vscode/
+
+# exclude zips
+*.zip
