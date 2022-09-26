@@ -72,7 +72,7 @@ public class Item
 
         // TODO: revisit the truncation method ?
 
-        double truncatedWeight = Math.floor(this.weight * 100) / 100;
+        double truncatedWeight = PokemonUtils.truncateDouble(this.weight, 2);
         return String.format("%s heals %d HP. (%.2f)", this.name, this.healingPower, truncatedWeight);
     }
 }

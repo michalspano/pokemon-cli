@@ -1,10 +1,5 @@
 package assignment2;
 
-/*  TODO: this Class is currently __bloated__ and should be revisited soon! 
- * - reduce inconsistencies and repetition;
- * - enhance overall performance.
-*/
-
 public class Pokemon {
 
     // *** attributes ***
@@ -103,7 +98,8 @@ public class Pokemon {
         this.skill = null;
     }
 
-    public void receiveDamage(int damage) {
+    public void receiveDamage(int damage)
+    {
         this.currentHP -= damage;
 
         if (this.currentHP <= 0) 
@@ -116,7 +112,8 @@ public class Pokemon {
         }
     }
 
-    public void rest() {
+    public void rest()
+    {
         if (!hasFainted) {
             this.currentHP += this.HEALTH_RECOVER;
         }
@@ -131,21 +128,26 @@ public class Pokemon {
         this.hasFainted = true;
     }
 
-    void useEnergy(int energyCost) {
-        if (this.energyPoints >= energyCost) {
+    void useEnergy(int energyCost)
+    {
+        if (this.energyPoints >= energyCost)
+        {
             this.energyPoints -= energyCost;
         }
     }
 
-    public void recoverEnergy() {
-        if (!hasFainted) {
+    public void recoverEnergy()
+    {
+        if (!hasFainted)
+        {
             this.energyPoints += this.ENERGY_RECOVER;
         }
 
         // if the current energy is greater than the max energy, 
         // set it to the max energy
 
-        if (this.energyPoints > this.MAX_ENERGY) {
+        if (this.energyPoints > this.MAX_ENERGY)
+        {
             this.energyPoints = this.MAX_ENERGY;
         }
     }

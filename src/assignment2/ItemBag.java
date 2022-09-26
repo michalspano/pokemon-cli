@@ -46,6 +46,53 @@ public class ItemBag
     }
     
     /** 
+     * @param toIncrease
+     * @param weight
+     */
+    private void adjustCurrentWeight(boolean toIncrease, double weight) 
+    {
+        if (toIncrease) 
+            this.currentWeight += weight;
+        else 
+            this.currentWeight -= weight;
+    } 
+    
+    /** 
+     * @param item
+     * @return int
+     */
+    private int binarySearch(Item item) 
+    {
+        int low = 0; 
+        int high = this.items.size() - 1;
+
+        int foundIndex = 0;
+
+        while (low <= high) 
+        {
+            int mid = (low + high) / 2;
+
+            if (items.get(mid).getWeight() == item.getWeight()) 
+            {
+                foundIndex = mid;
+                break;
+
+            } 
+            else if (item.getWeight() > items.get(mid).getWeight()) 
+            {
+                high = mid -1;
+                foundIndex = mid;
+
+            } else {
+                low = mid + 1;
+                foundIndex = mid + 1;
+            }
+        }
+
+        return foundIndex;
+    }
+
+    /** 
      * @param item
      * @return int
      */
@@ -65,37 +112,10 @@ public class ItemBag
             return -1;
          }
 
-         // we assume that the items are sorted by the weight; from the heaviest to the lightest
-         // hence, we may implement the binary search to obtain the valid index to insert to
-
-         // TODO: refactor the use of the algorithm
-         // e.g., separate method, etc.
-
-         int low = 0;
-         int high = this.items.size() - 1;
-
-         int addIndexAt = 0;
-
-         while (low <= high) {
-            int mid = (low + high) / 2;
-
-            // if the weight is the same as the middle weight
-            if (items.get(mid).getWeight() == item.getWeight()) {
-                addIndexAt = mid;
-                break;
-
-            } else if (item.getWeight() > items.get(mid).getWeight()) {
-                high = mid -1;
-                addIndexAt = mid;
-
-            } else {
-                low = mid + 1;
-                addIndexAt = mid + 1;
-            }
-        }
-
+        int addIndexAt = binarySearch(item);
         this.items.add(addIndexAt, item);
-        this.currentWeight += item.getWeight();
+        
+        adjustCurrentWeight(true, item.getWeight());
 
         return addIndexAt;
     }
@@ -113,34 +133,45 @@ public class ItemBag
         }
 
         Item currentItem = this.items.get(index);
-        double truncatedWeight = Math.floor(currentItem.getWeight() * 100) / 100;
+        double truncatedWeight = PokemonUtils.truncateDouble(currentItem.getWeight(), 2);
 
         return String.format("%s heals %d HP. (%.2f)",
                         currentItem.getName(), currentItem.getHealingPower(), truncatedWeight);
     }
-
     
     /** 
      * @param index
      * @return Item
      */
     public Item removeItemAt(int index) {
-        // TODO: implement proper functionality
-        return new Item("foo", 1, 1.0);
+        if (index >= items.size() || index < 0)
+        {
+            return null;
+        }
+
+        Item removedItem = this.items.get(index);           
+
+        this.items.remove(index);
+        adjustCurrentWeight(false, removedItem.getWeight()); 
+
+        return removedItem;                                 
     }
 
     /** 
      * @return Item
      */
-    public Item popItem() {
-        // TODO: implement proper functionality
-        return new Item("bar", 1, 1.0);
-    }
-    
-    /** 
-     * @return String
-     */
-    public String toString() {
-        return new String();
+    public Item popItem()
+    {
+        if (this.items.size() == 0) 
+        {
+            return null;
+        }
+
+        Item removedItem = this.items.get(0);            
+
+        this.items.remove(0);                           
+        adjustCurrentWeight(false, removedItem.getWeight());           
+
+        return removedItem;                                     
     }
 }
