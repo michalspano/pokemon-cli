@@ -1,3 +1,10 @@
+/***************************************************************************************************
+ * Group Work Assignment 2 - A2-Group 29
+ * File: Item.java
+ * Members: Ionel Pop, Joel Mattsson, Michal Spano
+ * For DIT043: Object Oriented Programming; SEM@GU.
+ ***************************************************************************************************/
+
 package assignment2;
 
 public class Item
@@ -12,46 +19,45 @@ public class Item
         this.healingPower = healingPower;
         this.weight = weight;
     }
-
-    // *** getters ***
     
     /**
      * @return int
      */
-    public int getHealingPower() {
+    public int getHealingPower() 
+    {
         return this.healingPower;
     }
 
     /**
      * @return String
      */
-    public String getName() {
+    public String getName() 
+    {
         return this.name;
     }
 
     /**
      * @return double
      */
-    public double getWeight() {
+    public double getWeight() 
+    {
         return this.weight;
     }
     
-    /*
-    * Two items are equals if they have the same
-    * Name, Healing Power and Weight.
-    */
-    
-    /** 
+    /** Two items are equals if they have the same: Name, Healing Power and Weight.
      * @param anotherObject
      * @return boolean
      */
 
-    public boolean equals(Object anotherObject) {
-        if (anotherObject == null) {
+    public boolean equals(Object anotherObject) 
+    {
+        if (anotherObject == null)
+        {
             return false;
         }
 
-        if (anotherObject instanceof Item) {
+        if (anotherObject instanceof Item) 
+        {
             Item anotherItem = (Item) anotherObject;
 
             boolean checkName = this.name.equals(anotherItem.name);
@@ -67,7 +73,8 @@ public class Item
     /** 
      * @return String
      */
-    public String toString() {
+    public String toString() 
+    {
         double truncatedWeight = PokemonUtils.truncateDouble(this.weight, 2);
         return String.format("%s heals %d HP. (%.2f)", 
                                 this.name, this.healingPower, truncatedWeight);
