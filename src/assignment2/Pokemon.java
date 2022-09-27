@@ -1,3 +1,10 @@
+/***************************************************************************************************
+ * Group Work Assignment 2 - A2-Group 29
+ * File: Pokemon.java
+ * Members: Ionel Pop, Joel Mattsson, Michal Spano
+ * For DIT043: Object Oriented Programming; SEM@GU.
+ ***************************************************************************************************/
+
 package assignment2;
 
 public class Pokemon 
@@ -8,8 +15,7 @@ public class Pokemon
     final byte HEALTH_RECOVER = 20;
     final String END_OF_LINE = System.lineSeparator();
 
-    // *** attributes ***
-
+    // class attributes
     private String name;
     private final int MAX_HP;
 
@@ -19,21 +25,11 @@ public class Pokemon
     private final String type;
     private PokemonSkill skill; 
 
-    // custom object attributes
+    // custom class attributes
     private boolean hasFainted;
 
-    /* Each pokemon has:
-    - 1. name
-    - 2. max health
-    - 3. current energy, current health
-    - 4. type - (fire, water, grass, normal)
-    - 5. a single skill (task 2) */
-    
-    // *** constructor ***
-
-    /* The name, MAX HP and type must be specified.
-       For all tasks below you can assume that the constructor receives only valid
-       values  */
+    /* The name, MAX_HP and type must be specified. For all tasks below we 
+     * can assume that the constructor receives only valid values */
 
     public Pokemon(String name, int maximumHP, String type)
     {
@@ -249,7 +245,6 @@ public class Pokemon
      */
     public String attack(Pokemon targetPokemon) 
     {
-
         // 1. test case
         if (this.skill == null)
         {
@@ -279,7 +274,7 @@ public class Pokemon
         else
         {
             PokemonTypes attackerType = PokemonTypes.valueOf(this.type.toUpperCase());
-            PokemonTypes targetType = PokemonTypes.valueOf(targetPokemon.getType().toUpperCase());
+            PokemonTypes targetType   = PokemonTypes.valueOf(targetPokemon.getType().toUpperCase());
 
             // initial attack message (String)
             String attackMessage = String.format("%s uses %s on %s.", 
@@ -289,11 +284,12 @@ public class Pokemon
             int skillEnergyCost  = this.skill.getEnergyCost();
 
             /*
-             * NOTE: Apparently, if the Attacker and the Target have the same Type, the attack should be "Not very effective"
+             * FIXME: Apparently, if the Attacker and the Target have the same Type, the attack should be "Not very effective"
              * But I'm not sure about this one...
              */
 
             // boolean isNormalAttack = targetType == PokemonTypes.NORMAL || attackerType == PokemonTypes.NORMAL || attackerType == targetType;
+
             boolean isNormalAttack = targetType == PokemonTypes.NORMAL || attackerType == PokemonTypes.NORMAL;
 
             if (isNormalAttack) 
@@ -303,7 +299,7 @@ public class Pokemon
 
             else
             {
-                float effectiveness = TypeCalculation.getEffectiveValue(attackerType, targetType);
+                float effectiveness = PokemonUtils.getEffectiveValue(attackerType, targetType);
 
                 int damage = (int)(skillAttackPower * effectiveness);
 
@@ -343,7 +339,8 @@ public class Pokemon
     * - Two pokemons are equal if they have the same name, type, skill, HP, MAX HP, EP
     */
     
-    /** 
+    /** Compare if two Pokemons are the same:
+     * Two pokemons are equal if they have the same name, type, skill, HP, MAX HP, EP
      * @param anotherObject
      * @return boolean
      */
@@ -375,10 +372,9 @@ public class Pokemon
         return false;
     }
     
-    /** 
+    /** Print the Pokemon object according to the specifications
      * @return String
      */
-    /* Print the Pokemon object according to the specifications */
 
     public String toString()
     {

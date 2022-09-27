@@ -1,3 +1,10 @@
+/***************************************************************************************************
+ * Group Work Assignment 2 - A2-Group 29
+ * File: Pokemon.java
+ * Members: Ionel Pop, Joel Mattsson, Michal Spano
+ * For DIT043: Object Oriented Programming; SEM@GU.
+ ***************************************************************************************************/
+
 package assignment2;
 
 public class PokemonSkill
@@ -38,13 +45,9 @@ public class PokemonSkill
     {
         return this.energyCost;
     }
-
-    /*
-    * Compare if two Pokemon Skills are the same:
-    * Two skills are equal if they have the same names, APs and energy costs.
-    */
     
-    /** 
+    /** Compare if two Pokemon Skills are the same:
+     * Two skills are equal if they have the same names, APs and energy costs.
      * @param anotherObject
      * @return boolean
      */
