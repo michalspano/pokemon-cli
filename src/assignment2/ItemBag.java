@@ -142,9 +142,9 @@ public class ItemBag
      */
     public String peekItemAt(int index)
     {
-        if (index >= this.items.size() || index < 0) 
+        if (!PokemonUtils.isWithinBounds(index, 0, this.items.size() - 1))
         {
-            return "";
+            return new String();
         }
 
         Item currentItem = this.items.get(index);
@@ -159,7 +159,7 @@ public class ItemBag
      * @return Item
      */
     public Item removeItemAt(int index) {
-        if (index >= items.size() || index < 0)
+        if (!PokemonUtils.isWithinBounds(index, 0, items.size() - 1)) 
         {
             return null;
         }
