@@ -11,19 +11,19 @@ import java.lang.Math;
 
 public class PokemonUtils
 {
-    /* Matrix Representation of the strengths and weaknesses of every specified Pokemon Type */
+    /* Matrix Representation of the strengths and weaknesses of every specified Pokemon Type 
+     * The 8-th row and column represent the 'Normal' type, which is not weak or strong against any other type */
+    
     public static final float[][] DAMAGE_MULTIPLIER_MATRIX = {
-        { 1,    1,      1,      .5f,    2,      1,      1   },
-        { 1,    2,      1,      1,      1,      1,      1   },
-        { 1,    .5f,    .5f,    1,      .5f,    1,      2   },
-        { 2,    .5f,    1,      .5f,    2,      2,      .5f },
-        { .5f,  .5f,    1,      .5f,    .5f,    1,      2   },
-        { 1,    2,      1,      .5f,    2,      .5f,    .5f },
-        { 1,    .5f,    1,      2,      .5f,    1,      .5f }
+        { 1,    1,      1,      .5f,    2,      1,      1,      1 },
+        { 1,    2,      1,      1,      1,      1,      1,      1 },
+        { 1,    .5f,    .5f,    1,      .5f,    1,      2,      1 },
+        { 2,    .5f,    1,      .5f,    2,      2,      .5f,    1 },
+        { .5f,  .5f,    1,      .5f,    .5f,    1,      2,      1 },
+        { 1,    2,      1,      .5f,    2,      .5f,    .5f,    1 },
+        { 1,    .5f,    1,      2,      .5f,    1,      .5f,    1 },
+        { 1,    1,      1,      1,      1,      1,      1,      1 },
     }; 
-
-    /* there's also the 8-th type: NORMAL, which is not included in the matrix above 
-     * it makes the attack multiplier 1 for all types */
     
     /** Return the correct multiplier for the attack
      * @param attackerType
