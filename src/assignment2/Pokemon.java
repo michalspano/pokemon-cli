@@ -112,7 +112,7 @@ public class Pokemon
      */
     public boolean knowsSkill()
     {
-        return(this.skill != null);
+        return (this.skill != null);
     }
 
     public void forgetSkill()
@@ -139,7 +139,8 @@ public class Pokemon
 
     public void rest()
     {
-        if (!hasFainted) {
+        if (!hasFainted) 
+        {
             this.currentHP += this.HEALTH_RECOVER;
         }
 
@@ -150,7 +151,8 @@ public class Pokemon
         }
     }
 
-    void faint() {
+    void faint() 
+    {
         this.hasFainted = true;
     }
     
@@ -159,6 +161,7 @@ public class Pokemon
      */
     void useEnergy(int energyCost)
     {
+        /* we use -1 here, so that we may use a skill if the energy is exactly the same as the cost */
         if (PokemonUtils.exceedingBound(this.energyPoints, energyCost - 1))
         {
             this.energyPoints -= energyCost;
@@ -195,7 +198,7 @@ public class Pokemon
         }
 
         // 2nd case - the increase will exceed the maximum HP
-        else if (this.currentHP + item.getHealingPower() > this.MAX_HP) 
+        else if (PokemonUtils.exceedingBound(this.currentHP + item.getHealingPower(), this.MAX_HP))
         {
             this.currentHP = this.MAX_HP;
             amountOfHealthHealed = this.MAX_HP - item.getHealingPower();   
@@ -239,8 +242,31 @@ public class Pokemon
     {
         return String.format(" %s faints.", name);
     }
-  
-    // TODO: avoid coupling the `attack` method with the `typeCalculation`
+    
+    /** 
+     * @param targetPokemon
+     * @return float
+     */
+    private float computeEffectiveness(Pokemon targetPokemon) 
+    {
+        PokemonTypes attackerType = PokemonTypes.valueOf(this.type.toUpperCase());
+        PokemonTypes targetType = PokemonTypes.valueOf(targetPokemon.getType().toUpperCase());
+
+        return PokemonUtils.getEffectiveValue(attackerType, targetType);
+    }
+
+    /** 
+     * @param effectiveness
+     * @return int
+     */
+    private int calculateAttackDamage(float effectiveness) 
+    {
+        int skillAttackPower = this.skill.getAttackPower();
+        int damage = (int) (skillAttackPower * effectiveness);
+        
+        return damage;
+    }
+
     /** 
      * @param targetPokemon
      * @return String
@@ -272,43 +298,32 @@ public class Pokemon
                                 this.name, this.energyPoints, this.skill.getEnergyCost());
         }
 
-        // 5. detect a successful attack V2
+        // 5. detect a successful attack 
         else
         {
-            PokemonTypes attackerType = PokemonTypes.valueOf(this.type.toUpperCase());
-            PokemonTypes targetType   = PokemonTypes.valueOf(targetPokemon.getType().toUpperCase());
-
             // initial attack message (String)
             String attackMessage = String.format("%s uses %s on %s.", 
                                     this.name, this.skill.getName(), targetPokemon.getName());
 
-            int skillAttackPower = this.skill.getAttackPower();
-            int skillEnergyCost  = this.skill.getEnergyCost();
-            
-            float effectiveness = PokemonUtils.getEffectiveValue(attackerType, targetType);
+            // compute the effectiveness of the attack and the caused damage (int)
+            float effectiveness = computeEffectiveness(targetPokemon);
+            int damage = calculateAttackDamage(effectiveness);
 
-            int damage = (int) (skillAttackPower * effectiveness);
-
-            // If it is very effective
-            if (effectiveness == 2)
+            // If it is not very effective
+            if (effectiveness == 0.5)
+            {
+                attackMessage += " It is not very effective...";
+            }
+            // Else it's very effective
+            else if (effectiveness == 2) 
             {
                 attackMessage += (" It is super effective!");
-                targetPokemon.receiveDamage(damage);
-            }
-
-            // Else-if it has no particular effect
-            else if(effectiveness == 1)
-            {
-                targetPokemon.receiveDamage(damage);
-            }
-
-            // Else it's not very effective
-            else {
-                attackMessage += " It is not very effective...";
-                targetPokemon.receiveDamage(damage);
             }            
 
-            this.useEnergy(skillEnergyCost);
+            // receive damage and let the attacker lose energy
+            targetPokemon.receiveDamage(damage);
+            this.useEnergy(this.skill.getEnergyCost());
+
             attackMessage += remainingHP(targetPokemon);
             
             // check if the target Pokemon has fainted
