@@ -38,4 +38,6 @@ public class Task1Test {
         assertEquals(exeggute1, exeggute2); //If they both dont know a skill, they have equal skills.
         assertNotEquals(exeggute1, ditto);
     }
+
+
 }

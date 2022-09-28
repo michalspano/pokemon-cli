@@ -1,8 +1,9 @@
 package pokemontest;
 
-import assignment2.Pokemon;
 import assignment2.Item;
-
+import assignment2.Pokemon;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Locale;
@@ -12,9 +13,13 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class Task6Test {
 
+    @BeforeEach
+    public void setupLocale(){
+        Locale.setDefault(Locale.ENGLISH);
+    }
+
     @Test
     public void shouldCreateValidItems(){
-        Locale.setDefault(Locale.ENGLISH);
         Item potion = new Item("Potion", 20, 5.0);
         Item superPotion = new Item("Super Potion", 60, 8.31235);
         Item hyperPotion = new Item("Hyper Potion", 120, 10.77850);

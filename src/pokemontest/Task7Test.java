@@ -1,14 +1,23 @@
 package pokemontest;
 
-import org.junit.jupiter.api.Test;
-
 import assignment2.Item;
 import assignment2.ItemBag;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class Task7Test {
+
+    @BeforeEach
+    public void setupLocale(){
+        Locale.setDefault(Locale.ENGLISH);
+    }
+
     @Test
     public void shouldCreateValidItemStash(){
         Item potion = new Item("Potion", 20, 5.0);
