@@ -21,6 +21,9 @@ public class PokemonUtils
         { 1,    2,      1,      .5f,    2,      .5f,    .5f },
         { 1,    .5f,    1,      2,      .5f,    1,      .5f }
     }; 
+
+    /* there's also the 8-th type: NORMAL, which is not included in the matrix above 
+     * it makes the attack multiplier 1 for all types */
     
     /** Return the correct multiplier for the attack
      * @param attackerType

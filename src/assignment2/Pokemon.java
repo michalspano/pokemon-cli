@@ -284,37 +284,33 @@ public class Pokemon
             int skillAttackPower = this.skill.getAttackPower();
             int skillEnergyCost  = this.skill.getEnergyCost();
 
-            /*
-             * FIXME: Apparently, if the Attacker and the Target have the same Type, the attack should be "Not very effective"
-             * But I'm not sure about this one...
-             */
+            /* the attacker is type normal or the target is type normal for a normal attack
+             * other 'normal' attacks are determined by the matrix */
 
-            // boolean isNormalAttack = targetType == PokemonTypes.NORMAL || attackerType == PokemonTypes.NORMAL || attackerType == targetType;
+            boolean isNormalAttack = (targetType == PokemonTypes.NORMAL || attackerType == PokemonTypes.NORMAL);
 
-            boolean isNormalAttack = targetType == PokemonTypes.NORMAL || attackerType == PokemonTypes.NORMAL;
-
-            if (isNormalAttack) 
-            {
+            if (isNormalAttack) {
                 targetPokemon.receiveDamage(skillAttackPower);
             }
-
             else
             {
                 float effectiveness = PokemonUtils.getEffectiveValue(attackerType, targetType);
 
-                int damage = (int)(skillAttackPower * effectiveness);
+                int damage = (int) (skillAttackPower * effectiveness);
 
                 // If it is very effective
-                if(effectiveness == 2)
+                if (effectiveness == 2)
                 {
                     attackMessage += (" It is super effective!");
                     targetPokemon.receiveDamage(damage);
                 }
-                // Else if it has no particular effect
+
+                // Else-if it has no particular effect
                 else if(effectiveness == 1)
                 {
                     targetPokemon.receiveDamage(damage);
                 }
+
                 // Else it's not very effective
                 else {
                     attackMessage += " It is not very effective...";
