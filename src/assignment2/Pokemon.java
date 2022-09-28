@@ -239,7 +239,8 @@ public class Pokemon
     {
         return String.format(" %s faints.", name);
     }
- 
+  
+    // TODO: avoid coupling the `attack` method with the `typeCalculation`
     /** 
      * @param targetPokemon
      * @return String
