@@ -144,7 +144,8 @@ public class Pokemon
         }
 
         // if the current HP is greater than the max HP, set it to the max HP
-        if (this.currentHP > this.MAX_HP) {
+        if (PokemonUtils.exceedingBound(this.currentHP, this.MAX_HP)) 
+        {
             this.currentHP = this.MAX_HP;
         }
     }
@@ -158,10 +159,10 @@ public class Pokemon
      */
     void useEnergy(int energyCost)
     {
-        if (this.energyPoints >= energyCost)
+        if (PokemonUtils.exceedingBound(this.energyPoints, energyCost - 1))
         {
             this.energyPoints -= energyCost;
-        }
+        }     
     }
 
     public void recoverEnergy()
@@ -171,10 +172,8 @@ public class Pokemon
             this.energyPoints += this.ENERGY_RECOVER;
         }
 
-        // if the current energy is greater than the max energy, 
-        // set it to the max energy
-
-        if (this.energyPoints > this.MAX_ENERGY)
+        // if the current energy is greater than the max energy, set it to the max energy
+        if (PokemonUtils.exceedingBound(this.energyPoints, this.MAX_ENERGY))
         {
             this.energyPoints = this.MAX_ENERGY;
         }
@@ -186,6 +185,8 @@ public class Pokemon
      */
     public String useItem(Item item)
     {
+        int amountOfHealthHealed;
+
         // 1st case - the HP is maximum
         if (this.currentHP == this.MAX_HP) 
         {
@@ -197,13 +198,11 @@ public class Pokemon
         else if (this.currentHP + item.getHealingPower() > this.MAX_HP) 
         {
             this.currentHP = this.MAX_HP;
-
-            return String.format("%s used %s. It healed %d HP.", 
-                                this.name, item.getName(), this.MAX_HP - item.getHealingPower());
+            amountOfHealthHealed = this.MAX_HP - item.getHealingPower();   
         }
 
         // 3rd case - the general increase of health
-        else 
+        else
         {
             // check if the Pokemon has fainted
             if (hasFainted) 
@@ -211,10 +210,12 @@ public class Pokemon
                 hasFainted = false;
             }
 
-            this.currentHP += item.getHealingPower();
-            return String.format("%s used %s. It healed %d HP.", 
-                                this.name, item.getName(), item.getHealingPower());
+            amountOfHealthHealed = item.getHealingPower();
+            this.currentHP += amountOfHealthHealed;
         }
+
+        return String.format("%s used %s. It healed %d HP.", 
+                            this.name, item.getName(), amountOfHealthHealed);
     }
     
     /** 
@@ -252,19 +253,19 @@ public class Pokemon
         }
 
         // 2. test case
-        else if(this.hasFainted)
+        else if (this.hasFainted)
         {
             return String.format("Attack failed. %s fainted.", this.name);
         }
 
         // 3. test case
-        else if(targetPokemon.hasFainted)
+        else if (targetPokemon.hasFainted)
         {
             return String.format("Attack failed. %s fainted.", targetPokemon.name);
         }
 
         // 4. test case
-        else if(this.energyPoints < this.skill.getEnergyCost())
+        else if (this.energyPoints < this.skill.getEnergyCost())
         {
             return String.format("Attack failed. %s lacks energy: %d/%d",
                                 this.name, this.energyPoints, this.skill.getEnergyCost());
@@ -333,20 +334,14 @@ public class Pokemon
             return attackMessage;
         }
     }
-  
-    /*
-    * Compare if two Pokemons are the same:
-    * - Two pokemons are equal if they have the same name, type, skill, HP, MAX HP, EP
-    */
-    
+
     /** Compare if two Pokemons are the same:
      * Two pokemons are equal if they have the same name, type, skill, HP, MAX HP, EP
      * @param anotherObject
      * @return boolean
      */
     public boolean equals(Object anotherObject)
-    {
-        
+    { 
         if (anotherObject == null) 
         {
             return false;
@@ -378,9 +373,9 @@ public class Pokemon
 
     public String toString()
     {
-        if(this.skill == null)
+        // If skill is empty
+        if (this.skill == null)
         {
-            // If skill is empty
             return String.format("%s (%s)", name, type);
         }
         else
