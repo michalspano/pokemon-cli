@@ -42,4 +42,25 @@ public class PokemonUtils
         double powerOfTen = Math.pow(10, decimalPlaces);
         return Math.floor(value * powerOfTen) / powerOfTen;
     }
+
+    /** 
+     * @param value
+     * @param min
+     * @param max
+     * @return boolean
+     */
+    public static boolean isWithinBounds(int value, int min, int max) 
+    {
+        return (value >= min && value <= max);
+    }
+    
+    /** 
+     * @param addedValue
+     * @param boundary
+     * @return boolean
+     */
+    public static boolean exceedingBound(int addedValue, int boundary)
+    {
+        return addedValue > boundary;
+    }
 }
