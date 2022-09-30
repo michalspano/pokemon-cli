@@ -13,7 +13,6 @@ public class Pokemon
     final byte MAX_ENERGY = 100;
     final byte ENERGY_RECOVER = 25;
     final byte HEALTH_RECOVER = 20;
-    final String END_OF_LINE = System.lineSeparator();
 
     // class attributes
     private String name;
@@ -220,52 +219,6 @@ public class Pokemon
         return String.format("%s used %s. It healed %d HP.", 
                             this.name, item.getName(), amountOfHealthHealed);
     }
-    
-    /** 
-     * @param targetPokemon
-     * @return String
-     */
-
-    private String remainingHP(Pokemon targetPokemon) 
-    {
-        return String.format("%s%s has %d HP left.",
-                END_OF_LINE,
-                targetPokemon.getName(),
-                targetPokemon.getCurrentHP());
-    }
-    
-    /** 
-     * @param name
-     * @return String
-     */
-    private String assignFaint(String name) 
-    {
-        return String.format(" %s faints.", name);
-    }
-    
-    /** 
-     * @param targetPokemon
-     * @return float
-     */
-    private float computeEffectiveness(Pokemon targetPokemon) 
-    {
-        PokemonTypes attackerType = PokemonTypes.valueOf(this.type.toUpperCase());
-        PokemonTypes targetType = PokemonTypes.valueOf(targetPokemon.getType().toUpperCase());
-
-        return PokemonUtils.getEffectiveValue(attackerType, targetType);
-    }
-
-    /** 
-     * @param effectiveness
-     * @return int
-     */
-    private int calculateAttackDamage(float effectiveness) 
-    {
-        int skillAttackPower = this.skill.getAttackPower();
-        int damage = (int) (skillAttackPower * effectiveness);
-        
-        return damage;
-    }
 
     /** 
      * @param targetPokemon
@@ -306,30 +259,30 @@ public class Pokemon
                                     this.name, this.skill.getName(), targetPokemon.getName());
 
             // compute the effectiveness of the attack and the caused damage (int)
-            float effectiveness = computeEffectiveness(targetPokemon);
-            int damage = calculateAttackDamage(effectiveness);
+            float effectiveness = PokemonUtils.computeEffectiveness(this.type, targetPokemon.getType());
+            int damage = PokemonUtils.calculateAttackDamage(this.skill.getAttackPower(), effectiveness);
 
             // If it is not very effective
             if (effectiveness == 0.5)
             {
-                attackMessage += " It is not very effective...";
+                attackMessage += PokemonUtils.ADDITIONAL_ATTACK_MESSAGE[0];
             }
             // Else it's very effective
             else if (effectiveness == 2) 
             {
-                attackMessage += (" It is super effective!");
-            }            
+                attackMessage += PokemonUtils.ADDITIONAL_ATTACK_MESSAGE[1];
+            }
 
             // receive damage and let the attacker lose energy
             targetPokemon.receiveDamage(damage);
             this.useEnergy(this.skill.getEnergyCost());
 
-            attackMessage += remainingHP(targetPokemon);
+            attackMessage += PokemonUtils.remainingHP(targetPokemon);
             
             // check if the target Pokemon has fainted
             if (targetPokemon.getCurrentHP() <= 0) 
             {
-                attackMessage += assignFaint(targetPokemon.getName());
+                attackMessage += PokemonUtils.assignFaint(targetPokemon.getName());
             }
 
             return attackMessage;
@@ -379,7 +332,7 @@ public class Pokemon
         {
             return String.format("%s (%s)", name, type);
         }
-        else
+        else 
         {
             // If it has learned a skill
             return String.format("%s (%s). Knows %s - AP: %d EC: %d",
