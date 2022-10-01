@@ -50,7 +50,9 @@ public class ItemBag
         return this.MAX_WEIGHT;
     }
     
-    /** 
+    /** Since this method is only used within the class, we make it private.
+     * We implemented it to reduce code duplication regarding the increment/decrement 
+     * of the current weight.
      * @param toIncrease
      * @param weight
      */
@@ -63,8 +65,15 @@ public class ItemBag
     } 
     
     /** This method uses Binary search to find the index of the item in the list.
-     * Therefore, the time complexity is O(log(n)), hence being more efficient than
-     * a standard linear search.
+     * Therefore, the time complexity is O(log(n)), therefore being more efficient than
+     * a standard linear search, O(n).
+     * 
+     * Note: initially, we wanted to create a separate class for the ItemBagUtils, but
+     * we decided to keep it in the same class, since it uses the class' private attributes,
+     * hence, passing them as parameters would be redundant. Instead, we made the method 
+     * (private) in the ItemBag class, which are only used by the ItemBag class, i.e.,
+     * the methods are not used by any other class.
+     * 
      * @param item
      * @return int
      */
@@ -84,7 +93,7 @@ public class ItemBag
             int mid = (low + high) / 2; 
             
             // if the middle element is the item we are looking for
-            if (items.get(mid).getWeight() == item.getWeight()) 
+            if (this.items.get(mid).getWeight() == item.getWeight()) 
             {
                 foundIndex = mid;
                 foundItem = true;
@@ -94,9 +103,9 @@ public class ItemBag
              * in the else-if and else statements, we partition the list 
              * per the binary search algorithm */
 
-            else if (item.getWeight() > items.get(mid).getWeight()) 
+            else if (item.getWeight() > this.items.get(mid).getWeight()) 
             {
-                high = mid -1;
+                high = mid - 1;
                 foundIndex = mid;
 
             } else {
