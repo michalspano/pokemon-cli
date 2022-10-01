@@ -57,4 +57,6 @@ public class ItemBagUtils {
 
         return foundIndex;
     }
+
+    /* space for new methods to be implemented that are specific to the ItemBag class ... */
 }
