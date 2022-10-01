@@ -16,7 +16,7 @@ public class ItemBag
 
     /* Analysis:
      * In order to implement the functionality of the ItemBag, we use the data structure
-     * 'ArrayList', i.e., a type of dynamic list. s*/
+     * 'ArrayList', i.e., a type of dynamic list. */
 
     private ArrayList<Item> items;
 
@@ -51,64 +51,6 @@ public class ItemBag
     }
     
     /** 
-     * @param toIncrease
-     * @param weight
-     */
-    private void adjustCurrentWeight(boolean toIncrease, double weight) 
-    {
-        if (toIncrease) 
-            this.currentWeight += weight;
-        else 
-            this.currentWeight -= weight;
-    } 
-    
-    /** This method uses Binary search to find the index of the item in the list.
-     * Therefore, the time complexity is O(log(n)), hence being more efficient than
-     * a standard linear search.
-     * @param item
-     * @return int
-     */
-    private int getIndexFrom(Item item)
-    {
-        /* low, high represent the indices of the first and the last elements in the list;
-         * this is the initial state of the binary search algorithm. */
-
-        int low = 0; 
-        int high = this.items.size() - 1;
-
-        int foundIndex = 0;
-        boolean foundItem = false; // this is the flag that indicates if the item was found or not.
-
-        while (low <= high && !foundItem) 
-        {
-            int mid = (low + high) / 2; 
-            
-            // if the middle element is the item we are looking for
-            if (items.get(mid).getWeight() == item.getWeight()) 
-            {
-                foundIndex = mid;
-                foundItem = true;
-            } 
-
-            /* if the item is greater (in weight) than the middle item; 
-             * in the else-if and else statements, we partition the list 
-             * per the binary search algorithm */
-
-            else if (item.getWeight() > items.get(mid).getWeight()) 
-            {
-                high = mid -1;
-                foundIndex = mid;
-
-            } else {
-                low = mid + 1;
-                foundIndex = mid + 1;
-            }
-        }
-
-        return foundIndex;
-    }
-
-    /** 
      * @param item
      * @return int
      */
@@ -127,10 +69,10 @@ public class ItemBag
          }
 
         // add the item to the list, increase the weight and return the index
-        int addIndexAt = getIndexFrom(item);
+        int addIndexAt = ItemBagUtils.getIndexFrom(item, this.items);
         this.items.add(addIndexAt, item);
         
-        adjustCurrentWeight(true, item.getWeight());
+        this.currentWeight += item.getWeight();
 
         return addIndexAt;
     }
@@ -170,7 +112,7 @@ public class ItemBag
         Item removedItem = this.items.get(index);           
 
         this.items.remove(index);
-        adjustCurrentWeight(false, removedItem.getWeight()); 
+        this.currentWeight -= removedItem.getWeight();
 
         return removedItem;                                 
     }
@@ -192,7 +134,7 @@ public class ItemBag
         Item removedItem = this.items.get(0);            
 
         this.items.remove(0);                           
-        adjustCurrentWeight(false, removedItem.getWeight());           
+        this.currentWeight -= removedItem.getWeight();        
 
         return removedItem;                                     
     }
