@@ -8,4 +8,5 @@ The goal of this assignment is to implement a simple `Pokemon` game in `Java` us
 
 ### Acknowledgement
 
-Authors: Ionel Pop, Joel Mattson, Michal Spano.
+- Authors: Ionel Pop, Joel Mattson, Michal Spano
+- Unit testing: Francisco Gomes de Oliveira Neto
