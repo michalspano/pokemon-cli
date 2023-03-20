@@ -1,3 +1,5 @@
+// Test source code on behalf of Franciso Gomes (2022) at the University of Gothenburg
+
 package pokemontest;
 
 import assignment2.Pokemon;
