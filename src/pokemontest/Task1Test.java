@@ -1,4 +1,4 @@
-// Test source code on behalf of Franciso Gomes (2022) at the University of Gothenburg
+// Test source code on behalf of Francisco Gomes de Oliveira Neto (2022) at University of Gothenburg
 
 package pokemontest;
 
